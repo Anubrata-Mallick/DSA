@@ -22,9 +22,21 @@ int main(){
     while(t--){
 
     //take Input 
-
+    int n, k, x; cin >>n>>k>>x;
     
     // Write Logic 
+        if(x!=1){
+            cout<<"YES" <<endl;
+            cout << n << endl; // print array size
+            loop(i, 0, n) cout << 1 << " "; // all will be 1
+            cout <<endl;
+        }else{
+            if(k>=3){
+              cout<<"YES" <<endl;
+              // 11 -> five 2s and one 3
+              
+            }
+        }
 
     }
     return 0;
