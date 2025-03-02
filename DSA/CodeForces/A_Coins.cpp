@@ -24,10 +24,18 @@ int main(){
     while(t--){
 
     //take Input 
-
+        ll n, k; cin >> n >> k;
     
     // Write Logic 
-
+        // if(iseven(k)){
+        //     if(iseven(n)){cout<<"YES"<<endl;}
+        //     else{cout<<"NO"<<endl;}
+        // } // it is told tht n>=k so we dont need to handle n<k
+        // else{
+        //     cout<<"YES"<<endl;
+        // }
+        if(iseven(n) || iseven(n-k)) cout << "YES" <<endl;
+        else cout<<"NO"<<endl;
     }
     return 0;
 }
