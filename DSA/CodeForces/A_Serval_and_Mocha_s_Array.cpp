@@ -17,12 +17,7 @@ pair<vector<int>, int> iparr() { // taking array input
     }
     return {arr, n};
 }
-void printArr(vector<int>arr, int s, int e){
-    loop(i, s, e){
-        cout<< arr[i] << " ";
-    }
-    cout<<endl;
-}
+
 /***************************************************    START     ********************************************************** */
 int main(){
     int t; cin >> t;
@@ -30,9 +25,19 @@ int main(){
 
     //take Input 
 
-    
-    // Write Logic 
+    auto[arr, n]= iparr();
 
+    // Write Logic 
+        int flag = 0;
+        loop(i, 0, n){
+            loop(j, i+1, n){
+                if(__gcd(arr[i], arr[j])<=2){
+                    flag = 1;
+                }
+            }
+        }
+
+        flag==1?cout<<"Yes"<<endl:cout<<"No"<<endl;
     }
     return 0;
 }

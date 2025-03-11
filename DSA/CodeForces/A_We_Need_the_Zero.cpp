@@ -17,11 +17,10 @@ pair<vector<int>, int> iparr() { // taking array input
     }
     return {arr, n};
 }
-void printArr(vector<int>arr, int s, int e){
-    loop(i, s, e){
-        cout<< arr[i] << " ";
-    }
-    cout<<endl;
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count()); 
+
+int getRand(int l, int r) {
+    return uniform_int_distribution<int>(l, r)(rng);
 }
 /***************************************************    START     ********************************************************** */
 int main(){
@@ -29,10 +28,18 @@ int main(){
     while(t--){
 
     //take Input 
-
+        auto[arr, n] = iparr();
     
     // Write Logic 
-
+        int sum_el = 0;
+        loop(i, 0, n){
+            sum_el ^=arr[i];
+        }
+        if(iseven(n)){
+            sum_el == 0 ? cout<<getRand(1, 4)<<endl : cout<<-1<<endl;
+        }else{
+            cout<<sum_el<<endl;
+        }
     }
     return 0;
 }

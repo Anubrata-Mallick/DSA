@@ -17,22 +17,39 @@ pair<vector<int>, int> iparr() { // taking array input
     }
     return {arr, n};
 }
-void printArr(vector<int>arr, int s, int e){
-    loop(i, s, e){
-        cout<< arr[i] << " ";
-    }
-    cout<<endl;
-}
+
 /***************************************************    START     ********************************************************** */
 int main(){
     int t; cin >> t;
     while(t--){
 
     //take Input 
-
+        ll sx,sy,dx,dy ;
+        cin >>sx>>sy>>dx>>dy;
     
     // Write Logic 
-
+        if(dy <sy){
+            cout<<-1<<endl;
+        }
+        else{
+            ll steps = 0;
+            steps += dy-sy; //reached to the same y level ------(dy)---------(sy)----- perform 1st op
+            ll currX = sx+steps;
+            if(currX < dx){
+                cout << -1 <<endl;
+            }else{
+            steps += currX-dx; // perform 2nd op
+            cout<<steps<<endl;
+            }
+        }
     }
     return 0;
 }
+
+/*
+if dy < sy ==> it is imposssible to reach because we cant lower the y
+if dy >= sy ==> perform 1st op for (dy-sy)times
+----- > we now reached at the dy level , but it will also change the x
+       now calculate the distance between the dx and current x 
+       perform the 2nd operation that much time
+*/

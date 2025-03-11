@@ -17,12 +17,7 @@ pair<vector<int>, int> iparr() { // taking array input
     }
     return {arr, n};
 }
-void printArr(vector<int>arr, int s, int e){
-    loop(i, s, e){
-        cout<< arr[i] << " ";
-    }
-    cout<<endl;
-}
+
 /***************************************************    START     ********************************************************** */
 int main(){
     int t; cin >> t;
@@ -30,9 +25,25 @@ int main(){
 
     //take Input 
 
-    
-    // Write Logic 
+    string s; ll n = 0;
+    cin >>n>>s;
 
+    // Write Logic 
+        ll ans = n;
+
+        ll f=0, l=n-1;
+        while(f<=l){
+            if(s[f] != s[l]){ ans-=2 ;}
+            else{break;}
+            f++;l--;
+        }
+
+        cout<<ans<<endl;
     }
     return 0;
 }
+
+/*
+10(11)10
+1(1)0
+*/

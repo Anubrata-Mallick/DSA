@@ -17,22 +17,36 @@ pair<vector<int>, int> iparr() { // taking array input
     }
     return {arr, n};
 }
-void printArr(vector<int>arr, int s, int e){
-    loop(i, s, e){
-        cout<< arr[i] << " ";
-    }
-    cout<<endl;
-}
+
 /***************************************************    START     ********************************************************** */
 int main(){
     int t; cin >> t;
     while(t--){
 
     //take Input 
-
+        auto[arr, n] = iparr();
     
     // Write Logic 
+        int no_two = 0, no_one=0;
+        loop(i, 0, n){
+            arr[i]==1?no_one++ : no_two++;
+        }
 
+        if(no_two==0){
+            cout<<1<<endl;
+        }else{
+            if(iseven(no_two)){
+                int count = 0; int pos = -1;
+                loop(i, 0, n){
+                    if(count == no_two/2){pos = i ; break;}
+                    if(arr[i]==2) count++;
+                }
+                cout<<pos<<endl;
+            }
+            else{
+                cout<<-1<<endl;
+            }
+        }
     }
     return 0;
 }
