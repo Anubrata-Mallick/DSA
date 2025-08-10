@@ -21,7 +21,8 @@ int main() {
     int t = 1;
     //cin >> t;
     while(t--){
-    solve();
+        solve();
+        cout<<endl;
     }
     return 0;
 }
