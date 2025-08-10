@@ -17,6 +17,11 @@ void solve(){
 // ================== MAIN ==================
 int main() {
     FAST_IO
+    
+    int t;
+    cin >> t;
+    while(t--){
     solve();
+    }
     return 0;
 }
