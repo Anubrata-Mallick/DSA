@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+//macro for debugging. Run watch(n) if you want to debug n;
+#define watch(x) cerr << "\n" << (#x) << " is " << (x) << endl
+const double PI = 3.141592653589793238463; //value of pi
+const int MOD = 1000000007; //used in many problems
+
+/*
+Anubrata Mallick
+URL: https://www.spoj.com/problems/THRBL/
+Solution Begins here
+*/
+
+struct SparseTable {
+    vector<vector<int>> st;
+    vector<int> lg;
+
+    SparseTable(vector<int>& a) {
+        int n = a.size();
+
+        lg.resize(n + 1);
+        for (int i = 2; i <= n; i++)
+            lg[i] = lg[i / 2] + 1;
+
+        int K = lg[n] + 1;
+        st.assign(K, vector<int>(n));
+
+        for (int i = 0; i < n; i++)
+            st[0][i] = a[i];
+
+        for (int k = 1; k < K; k++) {
+            for (int i = 0; i + (1 << k) <= n; i++) {
+                st[k][i] = max(  //......................... ( MAX MIN GCD OR AND) DEFINING FUNCTION
+                    st[k - 1][i],
+                    st[k - 1][i + (1 << (k - 1))]
+                );
+            }
+        }
+    }
+
+    int query(int l, int r) {
+        int k = lg[r - l + 1];
+        return max(st[k][l], st[k][r - (1 << k) + 1]); //......................... ( MAX MIN GCD OR AND) DEFINING FUNCTION
+    }
+};
+
+int main()
+{
+    //FAST I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    int n, q; cin>>n>>q;
+    vector<int> arr(n);
+    for(int i=0; i<n; i++){
+        cin>>arr[i];
+    }
+
+    SparseTable sp(arr);
+
+    int A, B, counter = 0;
+    for(int i=0; i<q; i++){
+        cin>>A>>B;
+        int l = min(A, B);
+        int r = max(A, B);
+
+        if(l+1==r){ // if cities are side by side then pass the ball
+            counter++; continue;
+        }
+
+        int mxH = sp.query(l, r-2); // maximum hill's height between A and B
+        if(mxH <= arr[A-1]){
+            counter++;
+        }
+    } 
+
+    cout<<counter;
+}
