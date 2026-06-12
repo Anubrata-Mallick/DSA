@@ -1,0 +1,117 @@
+#include<bits/stdc++.h>
+using namespace std;
+//macro for debugging. Run watch(n) if you want to debug n;
+#define watch(x) cerr << "\n" << (#x) << " is " << (x) << endl
+const double PI = 3.141592653589793238463; //value of pi
+const int MOD = 1000000007; //used in many problems
+
+/*
+Anubrata Mallick
+URL: URL
+Solution Begins here
+*/
+
+struct MinSparseTable {
+    vector<vector<int>> st;
+    vector<int> lg;
+
+    MinSparseTable(vector<int>& a) {
+        int n = a.size();
+
+        lg.resize(n + 1);
+        for (int i = 2; i <= n; i++)
+            lg[i] = lg[i / 2] + 1;
+
+        int K = lg[n] + 1;
+        st.assign(K, vector<int>(n));
+
+        for (int i = 0; i < n; i++)
+            st[0][i] = a[i];
+
+        for (int k = 1; k < K; k++) {
+            for (int i = 0; i + (1 << k) <= n; i++) {
+                st[k][i] = min(  //......................... ( MAX MIN GCD OR AND) DEFINING FUNCTION
+                    st[k - 1][i],
+                    st[k - 1][i + (1 << (k - 1))]
+                );
+            }
+        }
+    }
+
+    int query(int l, int r) {
+        int k = lg[r - l + 1];
+        return min(st[k][l], st[k][r - (1 << k) + 1]); //......................... ( MAX MIN GCD OR AND) DEFINING FUNCTION
+    }
+};
+
+struct MaxSparseTable {
+    vector<vector<int>> st;
+    vector<int> lg;
+
+    MaxSparseTable(vector<int>& a) {
+        int n = a.size();
+
+        lg.resize(n + 1);
+        for (int i = 2; i <= n; i++)
+            lg[i] = lg[i / 2] + 1;
+
+        int K = lg[n] + 1;
+        st.assign(K, vector<int>(n));
+
+        for (int i = 0; i < n; i++)
+            st[0][i] = a[i];
+
+        for (int k = 1; k < K; k++) {
+            for (int i = 0; i + (1 << k) <= n; i++) {
+                st[k][i] = max(  //......................... ( MAX MIN GCD OR AND) DEFINING FUNCTION
+                    st[k - 1][i],
+                    st[k - 1][i + (1 << (k - 1))]
+                );
+            }
+        }
+    }
+
+    int query(int l, int r) {
+        int k = lg[r - l + 1];
+        return max(st[k][l], st[k][r - (1 << k) + 1]); //......................... ( MAX MIN GCD OR AND) DEFINING FUNCTION
+    }
+};
+
+int main()
+{
+    //FAST I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    //taking the inputs
+    int N ; cin >>N;
+    vector<int>arr(N);
+    for(int i=0; i<N; i++){
+        cin>>arr[i];
+    }
+
+    //create sparse table
+    MinSparseTable mnst(arr);
+    MaxSparseTable mxst(arr);
+    int q; cin>>q;
+
+    while(q--){
+    int l,r; cin>>l>>r;
+    // the range part
+    int minStick = mnst.query(l, r);
+    int maxStick = mxst.query(l, r);
+
+    double buffer = (double)minStick; // buffer will finish first 
+
+    double T1 = (maxStick - minStick)/2.0; // time to finish the max length stick after buffer finish
+
+    // the out of range part
+    int LmaxStick = l==0?0: l==1? arr[0]: mxst.query(0, l-1);
+    int RmaxStick = r==(N-1)?0: r==(N-2)? arr[N-1]: mxst.query(r+1, N-1);
+
+    double T2 = max(LmaxStick, RmaxStick); // time to finish the longest stick among remaining sticks
+
+    cout<< fixed << setprecision(1) << buffer + max(T1, T2) << endl;
+    }
+}
