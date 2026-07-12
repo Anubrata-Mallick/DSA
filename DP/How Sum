@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+//macro for debugging. Run watch(n) if you want to debug n;
+#define watch(x) cerr << "\n" << (#x) << " is " << (x) << endl
+const double PI = 3.141592653589793238463; //value of pi
+const int MOD = 1000000007; //used in many problems
+
+/*
+Anubrata Mallick
+URL: URL
+Solution Begins here
+*/
+
+unordered_map<int, optional<vector<int>> > memo;
+
+optional<vector<int>> howSum(int targetSum, vector<int>& numbers){
+    //base case
+    if (memo.count(targetSum)) return memo[targetSum];
+    if (targetSum == 0) return vector<int>{};
+    if (targetSum<0) return nullopt;
+
+    // not found in memo
+    for(int n : numbers){
+        int remainder = targetSum - n;
+        auto result = howSum(remainder, numbers);
+        if (result)
+        {
+            result->push_back(n);
+            memo[targetSum] = result;
+            return memo[targetSum];
+        }
+    }
+
+    memo[targetSum] = nullopt;
+    return nullopt;
+}
+
+
+int main()
+{
+    //FAST I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    int n; cin>>n;
+    while(n--){
+        int targetSum; cin>>targetSum;
+        int sz; cin>>sz;
+        vector<int> numbers(sz);
+        for (int i = 0; i < sz; ++i)
+        {
+            /* code */
+            cin>>numbers[i];
+        }
+
+        auto ans = howSum(targetSum, numbers);
+        if (ans)
+        {
+            /* code */
+            cout<< "One way to make " << targetSum <<" is : ";
+            for (int a : *ans)
+            {
+                cout<< a << " ";
+            }
+            cout<<endl;
+
+        }else{
+            cout<<"This can not be created "<<endl;
+        }
+
+        memo.clear();
+
+    }
+}
