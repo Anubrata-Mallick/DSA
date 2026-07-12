@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+using namespace std;
+//macro for debugging. Run watch(n) if you want to debug n;
+#define watch(x) cerr << "\n" << (#x) << " is " << (x) << endl
+const double PI = 3.141592653589793238463; //value of pi
+const int MOD = 1000000007; //used in many problems
+
+/*
+Anubrata Mallick
+URL: URL
+Solution Begins here
+*/
+
+unordered_map<int, optional<vector<int>> > memo;
+
+optional<vector<int>> bestSum(int targetSum, vector<int>& numbers){
+    if(memo.count(targetSum)) return memo[targetSum];
+    if(targetSum==0) return vector<int>{};
+    if(targetSum<0) return nullopt;
+
+    optional<vector<int>> shortestCombination = nullopt;
+
+    for (int num : numbers)         
+    {       
+        int remainder = targetSum - num;
+        auto combination = bestSum(remainder, numbers);
+
+        if (combination)
+        {
+            combination->push_back(num);
+
+            if (shortestCombination==nullopt || combination->size() < shortestCombination->size())
+            {
+                shortestCombination = combination;
+            }
+        }
+    }
+
+    // store the shortest combination 
+    memo[targetSum] = shortestCombination;
+    return shortestCombination;
+}
+
+int main()
+{
+    //FAST I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    int t ; cin>>t;
+    while(t--){
+        int targetSum; cin>>targetSum;
+        int sz; cin>>sz;
+        vector<int> numbers(sz);
+        for (int i = 0; i < sz; ++i)
+        {
+            cin>>numbers[i];
+        }
+
+        auto ans = bestSum(targetSum, numbers);
+        if (ans)
+        {
+            cout<<"The shortest way to get "<<targetSum<<" is   [";
+
+            for(int num : *ans){
+                cout<<num<<" ";
+            }
+            cout<<"]"<<endl;
+        }else{
+            cout<<" can not be genarated " << endl;
+        }
+
+        memo.clear();
+    }
+}
