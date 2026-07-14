@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+//macro for debugging. Run watch(n) if you want to debug n;
+#define watch(x) cerr << "\n" << (#x) << " is " << (x) << endl
+const double PI = 3.141592653589793238463; //value of pi
+const int MOD = 1000000007; //used in many problems
+
+/*
+Anubrata Mallick
+URL: URL
+Solution Begins here
+*/
+
+unordered_map<string, vector<vector<string>> > memo;
+
+vector<vector<string>> allConstruct(string targetString, vector<string>& words){
+    if(memo.count(targetString)) return memo[targetString];
+    if(targetString=="") return {{}};
+
+    for(string word : words){
+        if (targetString.find(word)==0) 
+        {
+            string suffix = targetString.substr(word.size());
+            vector<vector<string>> combinations = allConstruct(suffix, words);
+            for(auto &row : combinations){
+                row.push_back(word);
+                memo[targetString].push_back(row); 
+            }
+        }
+    }
+
+    return memo[targetString];
+}
+int main()
+{
+    //FAST I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    int t; cin>>t;
+    while(t--){
+        string target; cin>>target;
+        int sz ; cin>>sz;
+        vector<string> wordBank(sz);
+        for (int i = 0; i < sz; ++i)
+        {
+            cin>>wordBank[i];
+        } 
+
+        cout<< target <<" can be constructed in "; 
+        for(auto ro : allConstruct(target, wordBank)){
+            cout<<"[";
+            for(auto val : ro){
+                cout<<val<<" ";
+            }
+            cout<<"]";
+        }
+        cout<<"ways"<<endl;
+
+        memo.clear();
+    }
+}
