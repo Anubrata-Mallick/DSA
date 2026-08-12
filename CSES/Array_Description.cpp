@@ -22,11 +22,6 @@ using namespace std;
 #define OO 2'000'000'000
 #define EPS 1e-9
 #define PI acos(-1)
-
-//-------------------
-#define maxN 1000000
-//--------------
-
 template < typename T = int > using Pair = pair < T, T >;
 vector < string > RET = {"NO", "YES"};
 
@@ -42,32 +37,59 @@ template < typename T = int > ostream& operator << (ostream &out, const vector <
 
 
 void Solve() {
-    // dp [height] [width]
-    // dp[i][1] : no of ways to make tower with height i ending with block width 1
-    // dp[i][2] : no of ways to make tower with height i ending wirh block width 2
+    int n , m ; cin>>n>>m;
 
-    vector<vector<ll>> dp (maxN+1, vector<ll>(3, 0));
-
-    dp[1][1] = 1; 
-    dp[1][2] = 1;
-
-    //pre compute all the possible numbers 
-    for (int i = 2; i <= maxN; i++)
+    int arr[n];
+    for (int i = 0; i < n; i++)
     {
-        dp[i][1] = (4*dp[i-1][1] + dp[i-1][2])%MOD;
-        dp[i][2] = (2*dp[i-1][2] + dp[i-1][1])%MOD;
+        cin>>arr[i];
     }
 
-    // taking input and lookup to the precomputed table
-    int t ; cin>>t;
-    for(int i =0; i<t; i++){
-        int h ;
-        cin>>h;
-        ll ans = (dp[h][1] + dp[h][2])%MOD;
-        cout<<ans<<endl;
+    // state dp[i][v] : total no of valid ways (v) to put in i th place of array
+    // transition : dp[i][j] = dp[i-1][j-1] + dp[i-1][j] + dp[i-1][j+1] ; 
+
+    vector<vector<int>> dp(n, vector<int>(m+2, 0));
+    
+    // base case
+    if(arr[0]==0){ // 0 3 4
+        for (int i = 1; i <= m; i++)
+        {
+            dp[0][i] = 1;
+        }
+        
+    }else{ // 4 0 0 3 4
+        dp[0][arr[0]] = 1;
+    }
+
+    // Fill the DP table 
+    for (int i = 1 ; i < n ; i++)
+    {
+        if(arr[i]==0){
+            for (int j=1; j<=m ; j++)
+            {
+                dp[i][j] = dp[i-1][j]; // top
+                if(j-1>=1) dp[i][j] = (dp[i][j] + dp[i-1][j-1])%MOD; // top-left
+                if(j+1<=m) dp[i][j] = (dp[i][j] + dp[i-1][j+1])%MOD; // top-riight
+            }
+            
+        }else{
+            int j = arr[i];
+            dp[i][j] = dp[i-1][j];
+            if(j-1>=1) dp[i][j] = (dp[i][j] + dp[i-1][j-1])%MOD;
+            if(j+1<=m) dp[i][j] = (dp[i][j] + dp[i-1][j+1])%MOD;
+        }
+    }
+
+    // calculate the result : last row will have our reasult 
+    int res = 0;
+    for (int j = 1; j <= m; j++)
+    {
+        res = (res + dp[n-1][j])%MOD;
     }
     
+    cout<<res;
 }
+
 int main(){
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
