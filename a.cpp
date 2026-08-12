@@ -43,61 +43,10 @@ template < typename T = int > ostream& operator << (ostream &out, const vector <
 }
 
 
-void Solve() {
+void Solve(){
 
-    int n, m; cin>>n>>m;
-    int a[n], b[m];
-    for (int i = 0; i < n; i++)
-    {
-        cin>> a[i];
-    }
-    for (int i = 0; i < m; i++)
-    {
-        cin>>b[i];
-    }
-
-    // DP table for string length
-    vector<vector<int>> dp (n+1, vector<int>(m+1, 0));
     
-    /*
-    Transition 
-    if matched : bring from the diagonal + 1
-    if mismatched : bring max among top and left 
-    */
-
-    for (int i = 1; i <=n; i++)
-    {
-        for (int j = 1; j <=m; j++)
-        {
-            if(a[i-1]==b[j-1]){
-                dp[i][j] = dp[i-1][j-1] + 1;
-            }else{
-                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
-            }
-        }
-    }
-    
-    cout<< dp[n][m] <<endl;
-
-    // getting the longest common subseq
-    vector<int> lcs;
-    int i=n, j=m;
-    while(i>0 && j>0){
-        if(a[i-1]==b[j-1]){
-            lcs.push_back(a[i-1]);
-            i--;j--;
-        }else if (dp[i-1][j] > dp[i][j-1]){
-            i--; // go to top row because the arrow must come form there 
-        }else{
-            j--; // go to left because the arrow must come from there 
-        }
-    }
-
-    // ans 
-    reverse(all(lcs));
-    cout_1d(lcs, lcs.size());
 }
-
 
 
 int main(){
