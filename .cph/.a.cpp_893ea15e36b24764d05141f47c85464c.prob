@@ -1,1 +1,1 @@
-{"name":"Local: a","url":"/home/anubrata/Desktop/DSA/a.cpp","tests":[{"id":1786367913715,"input":"8 6\n3 1 3 2 7 4 8 2\n6 5 1 2 3 4","output":"3\n1 2 4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/anubrata/Desktop/DSA/a.cpp","group":"local","local":true}
+{"name":"Local: a","url":"/home/anubrata/Desktop/DSA/a.cpp","tests":[{"id":1786367913715,"input":"4\nAACA\nBABC\nABDA\nAACA\n","output":"AAABACA"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/anubrata/Desktop/DSA/a.cpp","group":"local","local":true}
