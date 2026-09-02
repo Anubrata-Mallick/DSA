@@ -2,4 +2,4 @@
 
 | Problem Name | Answer |
 |---|---|
-| Number of Minimums on a Segment | Q1 |
+| Number of Minimums on a Segment | Q1(Segment Tree/Q1.cpp)|
